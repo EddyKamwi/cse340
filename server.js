@@ -1,7 +1,32 @@
+/* ******************************************
+ * This server.js file is the primary file of the
+ * application. It is used to control the project.
+ *******************************************/
+/* ***********************
+ * Require Statements
+ *************************/
 const express = require("express");
+const env = require("dotenv").config();
 const app = express();
-require("dotenv").config();
+const static = require("./routes/static");
+const router = require("./routes/app");
 
-app.get("/", (req, res) => res.json("Home Page"));
+/* ***********************
+ * Routes
+ *************************/
+app.use(static);
+app.use("/", router);
 
-app.listen(process.env.PORT,()=>{console.log(`server Started at http://localhost:${process.env.PORT}`)});
+/* ***********************
+ * Local Server Information
+ * Values from .env (environment) file
+ *************************/
+const port = process.env.PORT;
+const host = process.env.HOST;
+
+/* ***********************
+ * Log statement to confirm server operation
+ *************************/
+app.listen(port, () => {
+  console.log(`app listening on http://${host}:${port}`);
+});

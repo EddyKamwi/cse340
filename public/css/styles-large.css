@@ -1,0 +1,18 @@
+@media screen and (min-width: 500px) {
+}
+@media screen and (min-width: 720px) {
+  footer {
+    grid-template-columns: repeat(3, auto);
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  main{
+    grid-template-columns: repeat(2,auto);
+  }
+  .content{
+  grid-template-columns: repeat(2,1fr);
+  }
+  .upgrade-all,.reviews{
+    font-size: 1.4rem;
+  }
+}
