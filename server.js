@@ -10,15 +10,24 @@ const env = require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
 const router = require("./routes/app");
+const elayouts = require("express-ejs-layouts");
 
 /* ***********************
  * Routes
  *************************/
+app.use(express.json());
+
+// templating setup
+app.use(elayouts);
+app.set("view engine", "ejs");
+
+
 app.use(static);
 app.use("/", router);
 
 /* ***********************
  * Local Server Information
+
  * Values from .env (environment) file
  *************************/
 const port = process.env.PORT;
