@@ -66,6 +66,7 @@ nav a:hover,
 .content {
   display: grid;
   grid-template-columns: auto;
+  gap:1rem;
 }
 .hero {
   width: 100%;
@@ -164,4 +165,10 @@ footer ul {
   display: block;
   text-transform: capitalize;
   color: var(--light);
+}
+.own_today{
+  cursor: pointer;
+}
+.own_today:hover{
+transform: scale(.95);
 }
