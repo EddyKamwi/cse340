@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const AppController = require("../controllers/app-controller");
+const { baseController } = require("../controllers/baseController");
 
-router.get("/", AppController.index);
+router.get("/", baseController.buildHome);
 router.get("/custom", AppController.custom);
 router.get("/suv", AppController.suv);
 router.get("/sedan", AppController.sedan);

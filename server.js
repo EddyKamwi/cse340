@@ -11,6 +11,7 @@ const app = express();
 const static = require("./routes/static");
 const router = require("./routes/app");
 const elayouts = require("express-ejs-layouts");
+const baseController = require("./controllers/baseController");
 
 /* ***********************
  * Routes
@@ -20,7 +21,6 @@ app.use(express.json());
 // templating setup
 app.use(elayouts);
 app.set("view engine", "ejs");
-
 
 app.use(static);
 app.use("/", router);
