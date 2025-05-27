@@ -182,3 +182,31 @@ footer ul {
 .own_today:hover{
 transform: scale(.95);
 }
+.error-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  text-align: center;
+} 
+.error-page h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.error-page p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+.error-page a {
+  font-size: 1.2rem;
+  color: var(--primary);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 5px;
+}
+.error-page a:hover {
+  background-color: var(--primary);
+  color: var(--light);
+}

@@ -11,7 +11,7 @@ const app = express();
 const static = require("./routes/static");
 const router = require("./routes/app");
 const elayouts = require("express-ejs-layouts");
-const baseController = require("./controllers/baseController");
+const baseController = require("./controllers/baseController").baseController;
 
 /* ***********************
  * Routes
@@ -32,6 +32,13 @@ app.use("/", router);
  *************************/
 const port = process.env.PORT;
 const host = process.env.HOST;
+
+/* ***********************
+ *route error handling
+ *************************/
+app.use((req, res, next) => {
+  baseController.buildError(req, res, next);
+});
 
 /* ***********************
  * Log statement to confirm server operation
