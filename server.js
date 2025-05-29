@@ -8,6 +8,7 @@
 const express = require("express");
 const env = require("dotenv").config();
 const app = express();
+const path = require("path");
 const static = require("./routes/static");
 const router = require("./routes/app");
 const elayouts = require("express-ejs-layouts");
@@ -21,6 +22,8 @@ app.use(express.json());
 // templating setup
 app.use(elayouts);
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.set("layout", "./layouts/main");
 
 app.use(static);
 app.use("/", router);

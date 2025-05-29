@@ -1,0 +1,12 @@
+<%# content heading %> <% if (title) { %>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %> <%# messages() %> <%# the inventory items
+display. %> <% inventories.forEach(inventory => { %>
+<div>make and Model: <%= inventory.inv_model%><%= inventory.inv_make%></div>
+<img
+  src="<%= inventory.inv_image %>"
+  alt="<%= inventory.inv_model %>"
+  srcset=""
+/>
+
+<% }) %>

@@ -23,6 +23,21 @@ Util.getNav = async function (req, res, next) {
   list += "</ul>";
   return list;
 };
+Util.getInventoriesByClassificationId = async function (req, res, next) {
+  const classificationId = req.params.id;
+  if (!classificationId || classificationId === "undefined") {
+    res.redirect("/");
+    return; // Redirect if no classification ID is provided
+  }
+  try {
+    const data = await invModel.getInventoryByClassification(classificationId);
+    return data.rows;
+  } catch (error) {
+    error.status = 500;
+    return next(error);
+  }
+};
+
 Util.handleErrors = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
