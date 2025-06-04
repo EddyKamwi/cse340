@@ -8,8 +8,10 @@
     <a href="/inventory/<%= inventory.inv_id %>">
       <img
         src="<%= inventory.inv_image %>"
-        alt="<%= inventory.inv_model %>"
-        srcset=""
+        alt="<%= inventory.inv_make +' '+ inventory.inv_model %>"
+        loading="lazy"
+        width="500"
+        height="333"
       />
       <p class="v-name"><%= inventory.inv_make %> <%= inventory.inv_model %></p>
       <p class="v-price">$<%= inventory.inv_price %></p>

@@ -1,3 +1,12 @@
-<section>
-    <h2><%= inventory.inv_make %></h2>
+<section class="inventory-detail">
+  <img
+    src="<%= inventory.inv_image %>"
+    alt="<%= inventory.inv_make+' '+ inventory.inv_model %>"
+    loading="lazy"
+    width="500"
+    height="333"
+  />
+  <div class="i-body">
+    <h2><%= inventory.inv_make %> <%= inventory.inv_model %></h2>
+  </div>
 </section>
