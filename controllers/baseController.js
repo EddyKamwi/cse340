@@ -39,6 +39,18 @@ baseController.buildError = async function (req, res, next) {
     message: err.message,
     error: err,
   });
+  baseController.buildError500 = async function (req, res, next) {
+    const nav = await utilities.getNav();
+    const err = new Error("Internal Server Error");
+    err.status = 500;
+    res.status(err.status || 500);
+    res.render("errors/error", {
+      title: err.status || 500,
+      nav,
+      message: err.message,
+      error: err,
+    });
+  }
 };
 
 

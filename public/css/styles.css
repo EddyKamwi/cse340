@@ -249,8 +249,15 @@ transform: scale(.95);
   font-weight: 600;
 }
 .inventory-detail{
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   padding: 1rem;
+}
+.inventory-detail img {
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+  border-radius: 8px;
 }

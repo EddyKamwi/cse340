@@ -6,20 +6,36 @@
     font-size: 1.4rem;
     font-weight: 600;
   }
-  main{
-    grid-template-columns: repeat(2,auto);
+  main {
+    grid-template-columns: repeat(2, auto);
   }
-  .content{
-  grid-template-columns: repeat(2,1fr);
+  .content {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .upgrade-all,.reviews{
+  .upgrade-all,
+  .reviews {
     font-size: 1.4rem;
   }
   .i-container {
     grid-template-columns: repeat(3, 1fr);
   }
-  .i-container h2{
+  .i-container h2 {
     grid-column: 1/4;
     display: grid;
+  }
+  .inventory-detail {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .i-body{
+    text-align: left;
+  }
+  .i-body span{
+    font-weight: 600;
+    width: 100px;
+    display: inline-block;
+    margin-bottom: .5rem;
   }
 }

@@ -7,6 +7,18 @@
     height="333"
   />
   <div class="i-body">
-    <h2><%= inventory.inv_make %> <%= inventory.inv_model %></h2>
+    <h2>
+      <%= inventory.inv_year +' '+ inventory.inv_make +' '+ inventory.inv_model
+      %>
+    </h2>
+    <p>
+      <span>Price:</span> $<%=
+      Number(inventory.inv_price).toLocaleString('en-US') %>
+    </p>
+    <p>
+      <span>Mileage:</span> <%= Number(inventory.inv_miles).toLocaleString() %>
+    </p>
+    <p><span>Color:</span> <%= inventory.inv_color %></p>
+    <p><%= inventory.inv_description %></p>
   </div>
 </section>
