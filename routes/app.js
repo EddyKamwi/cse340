@@ -14,13 +14,13 @@ router.get("/sedan", AppController.sedan);
 router.get("/truck", AppController.truck);
 //500 server error
 router.get("/500", (req, res, next) => {
-    new Error("Internal Server Error").status = 500;
+    new Error("Server Error");
     res.status(500);
     res.render("errors/error", {
         title: "500",
         nav: utilities.getNav(),
         message: "Something went wrong, please try again later.",
-        error: new Error("Internal Server Error")
+        error: new Error("Server Error")
     });
 });
 
