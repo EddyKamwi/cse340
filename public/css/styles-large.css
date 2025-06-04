@@ -15,4 +15,11 @@
   .upgrade-all,.reviews{
     font-size: 1.4rem;
   }
+  .i-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .i-container h2{
+    grid-column: 1/4;
+    display: grid;
+  }
 }

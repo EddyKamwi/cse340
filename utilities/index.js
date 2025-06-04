@@ -38,8 +38,44 @@ Util.getInventoriesByClassificationId = async function (req, res, next) {
   }
 };
 
+Util.getInventoryById = async function (req, res, next) {
+  const inventoryId = req.params.id;
+  if (!inventoryId || inventoryId === "undefined") {
+    res.redirect("/");
+    return; // Redirect if no inventory ID is provided
+  }
+  try {
+    const data = await invModel.getInventoryById(inventoryId);
+    if (data.rows.length === 0) {
+      const error = new Error("No inventory found for this ID");
+      error.status = 404;
+      return next(error);
+    }
+    return data.rows[0];
+  } catch (error) {
+    error.status = 500;
+    return next(error);
+  }
+};
+
 Util.handleErrors = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+Util.getName = (num) => {
+  if (num === 1 || num === "1") {
+    return "Custom";
+  } else if (num === 2 || num === "2") {
+    return "Sport";
+  } else if (num === 3 || num === "3") {
+    return "SUV";
+  } else if (num === 4 || num === "4") {
+    return "Truck";
+  } else if (num === 5 || num === "5") {
+    return "Sedan";
+  } else {
+    return "Unknown";
+  }
 };
 
 module.exports = Util;

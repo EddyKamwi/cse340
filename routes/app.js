@@ -5,6 +5,7 @@ const { invController } = require("../controllers/inv-controller");
 
 router.get("/", baseController.buildHome);
 router.get('/inv/type/:id', invController.buildInventory);
+router.get('/inventory/:id', invController.buildDetailPage);
 router.get("/custom", AppController.custom);
 router.get("/suv", AppController.suv);
 router.get("/sedan", AppController.sedan);

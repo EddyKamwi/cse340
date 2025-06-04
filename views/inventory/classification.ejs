@@ -1,12 +1,20 @@
 <%# content heading %> <% if (title) { %>
 <h1><%= title %></h1>
-<% } else { res.redirect('/') } %> <%# messages() %> <%# the inventory items
-display. %> <% inventories.forEach(inventory => { %>
-<div>make and Model: <%= inventory.inv_model%><%= inventory.inv_make%></div>
-<img
-  src="<%= inventory.inv_image %>"
-  alt="<%= inventory.inv_model %>"
-  srcset=""
-/>
+<section class="i-container">
+  <h2><%- name %></h2>
+  <% } else { res.redirect('/') } %> <%# messages() %> <%# the inventory items
+  display. %> <% inventories.forEach(inventory => { %>
+  <div class="i-card">
+    <a href="/inventory/<%= inventory.inv_id %>">
+      <img
+        src="<%= inventory.inv_image %>"
+        alt="<%= inventory.inv_model %>"
+        srcset=""
+      />
+      <p class="v-name"><%= inventory.inv_make %> <%= inventory.inv_model %></p>
+      <p class="v-price">$<%= inventory.inv_price %></p>
+    </a>
+  </div>
 
-<% }) %>
+  <% }) %>
+</section>
