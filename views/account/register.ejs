@@ -1,0 +1,52 @@
+<section class="register-section">
+  <h1><%- title %></h1>
+  <form action="/account" method="post">
+    <div>
+      <label for="firstname">First name:</label>
+      <input
+        type="text"
+        name="firstname"
+        id="firstname"
+        autocomplete="given-name"
+        class="text"
+        required
+      />
+    </div>
+    <div>
+      <label for="lastname">Last name:</label>
+      <input
+        type="text"
+        name="lastname"
+        id="lastname"
+        autocomplete="family-name"
+        class="text"
+        required
+      />
+    </div>
+    <div>
+      <label for="email">Email address:</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        autocomplete="email"
+        class="text"
+        required
+      />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        autocomplete="new-password"
+        class="text"
+        required
+      />
+    </div>
+    <div>
+      <input type="submit" value="Register" class="register-btn" />
+    </div>
+  </form>
+</section>

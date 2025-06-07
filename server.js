@@ -13,12 +13,35 @@ const static = require("./routes/static");
 const router = require("./routes/app");
 const elayouts = require("express-ejs-layouts");
 const baseController = require("./controllers/baseController").baseController;
-
+const accountController = require("./controllers/account-controller")
+const session = require("express-session");
+const pool = require("./database/");
+const utilities = require("./utilities/")
 
 /* ***********************
  * Routes
  *************************/
 app.use(express.json());
+
+app.use(
+  session({
+    store: new (require("connect-pg-simple")(session))({
+      createTableIfMissing: true,
+      pool,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    name: "sessionId",
+  })
+);
+
+// Express Messages Middleware
+app.use(require("connect-flash")());
+app.use(function (req, res, next) {
+  res.locals.messages = require("express-messages")(req, res);
+  next();
+});
 
 // templating setup
 app.use(elayouts);
@@ -27,6 +50,9 @@ app.set("views", path.join(__dirname, "views"));
 app.set("layout", "./layouts/main");
 
 app.use(static);
+app.use("/account", require("./routes/accountRoute"));
+// Route to build login view
+router.get("/login", utilities.handleErrors(accountController.buildLogin))
 app.use("/", router);
 
 /* ***********************
