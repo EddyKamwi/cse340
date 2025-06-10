@@ -17,11 +17,13 @@ const accountController = require("./controllers/account-controller")
 const session = require("express-session");
 const pool = require("./database/");
 const utilities = require("./utilities/")
+const bodyParser = require("body-parser");
 
 /* ***********************
  * Routes
  *************************/
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   session({

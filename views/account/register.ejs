@@ -1,45 +1,45 @@
 <section class="register-section">
   <h1><%- title %></h1>
-  <form action="/account" method="post">
+  <form action="/account/register" method="post">
     <div>
-      <label for="firstname">First name:</label>
+      <label for="account_firstname">First name:</label>
       <input
         type="text"
-        name="firstname"
-        id="firstname"
+        name="account_firstname"
+        id="account_firstname"
         autocomplete="given-name"
         class="text"
         required
       />
     </div>
     <div>
-      <label for="lastname">Last name:</label>
+      <label for="account_lastname">Last name:</label>
       <input
         type="text"
-        name="lastname"
-        id="lastname"
+        name="account_lastname"
+        id="account_lastname"
         autocomplete="family-name"
         class="text"
         required
       />
     </div>
     <div>
-      <label for="email">Email address:</label>
+      <label for="account_email">Email address:</label>
       <input
         type="email"
-        name="email"
-        id="email"
+        name="account_email"
+        id="account_email"
         autocomplete="email"
         class="text"
         required
       />
     </div>
     <div>
-      <label for="password">Password:</label>
+      <label for="account_password">Password:</label>
       <input
         type="password"
-        name="password"
-        id="password"
+        name="account_password"
+        id="account_password"
         autocomplete="new-password"
         class="text"
         required
@@ -49,4 +49,6 @@
       <input type="submit" value="Register" class="register-btn" />
     </div>
   </form>
+    <p>Already have an Account? <a href="/login">Login</a></p>
+
 </section>

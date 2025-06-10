@@ -1,0 +1,33 @@
+<section class="register-section">
+  <h1><%- title %></h1>
+  <form action="/account" method="post">
+
+    <div>
+      <label for="account_email">Email address:</label>
+      <input
+        type="email"
+        name="account_email"
+        id="account_email"
+        autocomplete="email"
+        class="text"
+        required
+      />
+    </div>
+    <div>
+      <label for="account_password">Password:</label>
+      <input
+        type="password"
+        name="account_password"
+        id="account_password"
+        autocomplete="new-password"
+        class="text"
+        required
+      />
+    </div>
+    <div>
+      <input type="submit" value="Login" class="register-btn" />
+    </div>
+  </form>
+    <p>No Account? <a href="/account/register">Sign-up</a></p>
+
+</section>
