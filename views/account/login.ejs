@@ -1,7 +1,7 @@
 <section class="register-section">
   <h1><%- title %></h1>
+  <p class="alert"><%- messages() %></p>
   <form action="/account" method="post">
-
     <div>
       <label for="account_email">Email address:</label>
       <input
@@ -15,6 +15,12 @@
     </div>
     <div>
       <label for="account_password">Password:</label>
+      <p>
+        <span
+          >Passwords must be at least 12 characters and contain at least 1
+          number, 1 capital letter and 1 special character</span
+        >
+      </p>
       <input
         type="password"
         name="account_password"
@@ -22,12 +28,12 @@
         autocomplete="new-password"
         class="text"
         required
+        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
       />
     </div>
     <div>
       <input type="submit" value="Login" class="register-btn" />
     </div>
   </form>
-    <p>No Account? <a href="/account/register">Sign-up</a></p>
-
+  <p>No Account? <a href="/account/register">Sign-up</a></p>
 </section>

@@ -12,13 +12,14 @@ accountController.buildLogin = async (req, res) => {
   res.render("account/login", { title: "Login", nav });
 };
 
-accountController.buildRegister = async (req, res) => {
+accountController.buildRegister = async (req, res, next) => {
   const nav = await utilities.getNav();
   res.render("account/register", {
     title: "Register",
     nav,
     errors: null,
   });
+  next();
 };
 
 /* ****************************************
