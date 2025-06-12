@@ -1,10 +1,13 @@
-const { addClassification , addInventory} = require("../models/inventory-model");
+const {
+  addClassification,
+  addInventory,
+} = require("../models/inventory-model");
 const utilities = require("../utilities/index");
 const invController = {};
 
 invController.buildInventory = async function (req, res, next) {
   const nav = await utilities.getNav();
-  const name = utilities.getName(req.params.id);
+  const name = await utilities.getClassName(req.params.id);
   const inventories = await utilities.getInventoriesByClassificationId(
     req,
     res,
@@ -60,7 +63,11 @@ invController.createInv = async function (req, res, next) {
     inv_model,
     inv_year,
     inv_description,
+    inv_image,
+    inv_thumbnail,
     inv_price,
+    inv_miles,
+    inv_color,
     classification_id,
   } = req.body;
 
@@ -70,20 +77,19 @@ invController.createInv = async function (req, res, next) {
       inv_model,
       inv_year,
       inv_description,
+      inv_image,
+      inv_thumbnail,
       inv_price,
+      inv_miles,
+      inv_color,
       classification_id
     );
     req.flash("notice", "Inventory item added successfully.");
     res.redirect("/inv");
   } catch (error) {
     req.flash("notice", "Error adding inventory: " + error.message);
-    res.render("inventory/add-inventory", {
-      title: "Add Inventory",
-      nav,
-      errors: null,
-      classList: await utilities.buildClassificationList(),
-    });
+    res.redirect("/inv/new-inv");
   }
-}
+};
 
 module.exports = { invController };

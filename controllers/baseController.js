@@ -21,6 +21,7 @@ baseController.newInv = async function (req, res) {
   const classList = await utilities.buildClassificationList();
   res.render("inventory/add-inventory", { title: "Add an Inventory", nav ,errors: null ,classList});
 }
+
 /* *******************************************
  * buildError pages
  * This function builds the error page

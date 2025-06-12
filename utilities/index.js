@@ -80,21 +80,21 @@ Util.handleErrors = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-Util.getName = (num) => {
-  if (num === 1 || num === "1") {
-    return "Custom";
-  } else if (num === 2 || num === "2") {
-    return "Sport";
-  } else if (num === 3 || num === "3") {
-    return "SUV";
-  } else if (num === 4 || num === "4") {
-    return "Truck";
-  } else if (num === 5 || num === "5") {
-    return "Sedan";
-  } else {
-    return "Unknown";
+Util.getClassName = async function (classification_id) {
+  if (!classification_id || classification_id === "undefined") {
+    return "Unknown Classification";
   }
-};
+  try {
+    const data = await invModel.getClassificationById(classification_id);
+    if (data.rows.length === 0) {
+      return "Unknown Classification";
+    }
+    return data.rows[0].classification_name;
+  } catch (error) {
+    error.status = 500;
+    throw error; // Propagate the error to be handled by the middleware
+  }
+}
 
 Util.buildClassificationList = async function (classification_id = null) {
     let data = await invModel.getClassifications()

@@ -16,6 +16,14 @@ async function getClassifications() {
   );
 }
 
+// get classification by id
+async function getClassificationById(classificationId) {
+  return await pool.query(
+    "SELECT * FROM classification WHERE classification_id = $1",
+    [classificationId]
+  );
+}
+
 // add a new classification
 async function addClassification(classificationName) {
   return await pool.query(
@@ -32,10 +40,9 @@ async function getInventoryByClassification(classificationId) {
 }
 // get inventory by id
 async function getInventoryById(inventoryId) {
-  return await pool.query(
-    "SELECT * FROM inventory WHERE inv_id = $1",
-    [inventoryId]
-  );
+  return await pool.query("SELECT * FROM inventory WHERE inv_id = $1", [
+    inventoryId,
+  ]);
 }
 
 //check
@@ -66,9 +73,17 @@ async function addInventory(
       invPrice,
       invMiles,
       invColor,
-      classificationId
+      classificationId,
     ]
   );
 }
 
-module.exports = { getClassifications, getInventoryByClassification, getInventoryById ,addClassification, addInventory };
+module.exports = {
+  getClassifications,
+  getInventoryByClassification,
+  getInventoryById,
+  addClassification,
+  addInventory,
+  getClassificationById,
+  checkClassificationExists,
+};
