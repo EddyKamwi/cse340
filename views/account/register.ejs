@@ -1,6 +1,5 @@
-<section class="register-section">
+<section class="form-section">
   <h1><%- title %></h1>
-  <p class="alert"><%- messages() %></p>
 
   <% if (errors) { %>
   <ul class="notice">
@@ -20,6 +19,7 @@
         autocomplete="given-name"
         class="text"
         required
+        value="<%= locals.account_firstname %>"
       />
     </div>
     <div>
@@ -31,6 +31,7 @@
         autocomplete="family-name"
         class="text"
         required
+        value="<%= locals.account_lastname %>"
       />
     </div>
     <div>
@@ -42,6 +43,7 @@
         autocomplete="email"
         class="text"
         required
+        value="<%= locals.account_email %>"
       />
     </div>
     <div>
@@ -61,8 +63,9 @@
       />
     </div>
     <div>
-      <input type="submit" value="Register" class="register-btn" />
+      <input type="submit" value="Register" class="form-btn" />
     </div>
+
   </form>
   <p>Already have an Account? <a href="/login">Login</a></p>
 </section>

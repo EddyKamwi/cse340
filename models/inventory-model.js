@@ -1,9 +1,26 @@
 const pool = require("../database/");
 
+// check if the classification exists
+async function checkClassificationExists(classificationName) {
+  const result = await pool.query(
+    "SELECT * FROM classification WHERE classification_name = $1",
+    [classificationName]
+  );
+  return result.rowCount;
+}
+
 // get all classification data
 async function getClassifications() {
   return await pool.query(
     "SELECT * FROM classification ORDER BY classification_name"
+  );
+}
+
+// add a new classification
+async function addClassification(classificationName) {
+  return await pool.query(
+    "INSERT INTO classification (classification_name) VALUES ($1)",
+    [classificationName]
   );
 }
 // get inventory by classification id
@@ -20,4 +37,38 @@ async function getInventoryById(inventoryId) {
     [inventoryId]
   );
 }
-module.exports = { getClassifications, getInventoryByClassification, getInventoryById };
+
+//check
+
+// add a new inventory item
+//  inv_make,inv_model,inv_year,inv_description,inv_image,inv_thumbnail,inv_price,inv_miles,inv_color
+async function addInventory(
+  invMake,
+  invModel,
+  invYear,
+  invDescription,
+  invImage,
+  invThumbnail,
+  invPrice,
+  invMiles,
+  invColor,
+  classificationId
+) {
+  return await pool.query(
+    "INSERT INTO inventory (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+    [
+      invMake,
+      invModel,
+      invYear,
+      invDescription,
+      invImage,
+      invThumbnail,
+      invPrice,
+      invMiles,
+      invColor,
+      classificationId
+    ]
+  );
+}
+
+module.exports = { getClassifications, getInventoryByClassification, getInventoryById ,addClassification, addInventory };

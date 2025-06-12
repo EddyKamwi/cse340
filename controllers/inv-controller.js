@@ -1,3 +1,4 @@
+const { addClassification , addInventory} = require("../models/inventory-model");
 const utilities = require("../utilities/index");
 const invController = {};
 
@@ -33,5 +34,56 @@ invController.buildDetailPage = async function (req, res, next) {
     inventory,
   });
 };
+
+// add addClassification
+invController.createClass = async function (req, res, next) {
+  const nav = await utilities.getNav();
+  const { classification_name } = req.body;
+  try {
+    addResult = await addClassification(classification_name);
+    req.flash("notice", "Classification added successfully.");
+    res.redirect("/inv");
+  } catch (error) {
+    req.flash("notice", "Error adding classification: " + error.message);
+    res.render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      errors: null,
+    });
+  }
+};
+
+invController.createInv = async function (req, res, next) {
+  const nav = await utilities.getNav();
+  const {
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_price,
+    classification_id,
+  } = req.body;
+
+  try {
+    await addInventory(
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_price,
+      classification_id
+    );
+    req.flash("notice", "Inventory item added successfully.");
+    res.redirect("/inv");
+  } catch (error) {
+    req.flash("notice", "Error adding inventory: " + error.message);
+    res.render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      errors: null,
+      classList: await utilities.buildClassificationList(),
+    });
+  }
+}
 
 module.exports = { invController };

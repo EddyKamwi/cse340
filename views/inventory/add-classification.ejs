@@ -1,0 +1,28 @@
+<h1><%= title %></h1>
+<section class="form-section">
+  <% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+  <% } %>
+  <form action="/inv/new-class" method="post">
+    <div>
+      <label for="classification_name">Classification Name:</label>
+      <input
+        type="text"
+        name="classification_name"
+        id="classification_name"
+        class="text"
+        required
+        value="<%= locals.classification_name %>"
+        autocomplete="on"
+      />
+    </div>
+    <div>
+      <input type="submit" value="Create Class" class="form-btn" />
+    </div>
+  </form>
+  <p><a href="/inv">Back to Inventory Management</a></p>
+</section>

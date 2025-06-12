@@ -5,7 +5,13 @@ const { baseController } = require("../controllers/baseController");
 const { invController } = require("../controllers/inv-controller");
 
 // Index route
-// router.get("/", baseController.buildHome);
+router.get("/inv", utilities.handleErrors(baseController.managePage));
+router.get("/inv/new-class", utilities.handleErrors(baseController.newClass));
+router.post("/inv/new-class", utilities.handleErrors(invController.createClass));
+router.get("/inv/new-inv", utilities.handleErrors(baseController.newInv));
+router.post("/inv/new-inv", utilities.handleErrors(baseController.createInv));
+
+
 router.get("/inv/type/:id", invController.buildInventory);
 router.get("/inventory/:id", invController.buildDetailPage);
 router.get("/custom", AppController.custom);

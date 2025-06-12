@@ -1,4 +1,4 @@
-<section class="register-section">
+<section class="form-section">
   <h1><%- title %></h1>
   <p class="alert"><%- messages() %></p>
   <form action="/account" method="post">
@@ -25,14 +25,14 @@
         type="password"
         name="account_password"
         id="account_password"
-        autocomplete="new-password"
+        autocomplete="current-password"
         class="text"
         required
         pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
       />
     </div>
     <div>
-      <input type="submit" value="Login" class="register-btn" />
+      <input type="submit" value="Login" class="form-btn" />
     </div>
   </form>
   <p>No Account? <a href="/account/register">Sign-up</a></p>

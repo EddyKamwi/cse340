@@ -23,6 +23,24 @@ Util.getNav = async function (req, res, next) {
   list += "</ul>";
   return list;
 };
+Util.getUpgrades = [
+  {
+    name: "fluxcapacitor",
+    url: "./images/upgrades/flux-cap.png",
+  },
+  {
+    name: "flame Decals",
+    url: "./images/upgrades/flame.png",
+  },
+  {
+    name: "bumper stickers",
+    url: "./images/upgrades/bumper_sticker.jpg",
+  },
+  {
+    name: "Hub caps",
+    url: "./images/upgrades/hub-cap.png",
+  },
+];
 Util.getInventoriesByClassificationId = async function (req, res, next) {
   const classificationId = req.params.id;
   if (!classificationId || classificationId === "undefined") {
@@ -77,6 +95,25 @@ Util.getName = (num) => {
     return "Unknown";
   }
 };
+
+Util.buildClassificationList = async function (classification_id = null) {
+    let data = await invModel.getClassifications()
+    let classificationList =
+      '<select name="classification_id" id="classificationList" required class="select"> '
+    classificationList += "<option selected disabled>Choose a Classification</option>"
+    data.rows.forEach((row) => {
+      classificationList += '<option value="' + row.classification_id + '"'
+      if (
+        classification_id != null &&
+        row.classification_id == classification_id
+      ) {
+        classificationList += " selected "
+      }
+      classificationList += ">" + row.classification_name + "</option>"
+    })
+    classificationList += "</select>"
+    return classificationList
+  }
 
 /* ****************************************
  * Middleware For Handling Errors
