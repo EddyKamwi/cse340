@@ -1,6 +1,8 @@
 @media screen and (min-width: 500px) {
 }
 @media screen and (min-width: 720px) {
+.management ul {
+  grid-template-columns: repeat(2, auto);}
   footer {
     grid-template-columns: repeat(3, auto);
     font-size: 1.4rem;

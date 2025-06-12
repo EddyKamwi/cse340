@@ -268,7 +268,8 @@ footer ul {
   /* max-width: 480px; */
 }
 .form-section form div {
-  margin-bottom: 1rem;}
+  margin-bottom: 1rem;
+}
 .form-section form div label {
   display: block;
   font-weight: 600;
@@ -280,7 +281,7 @@ footer ul {
 }
 .form-section .select {
   height: 1.8rem;
-  padding:0 0.5rem 0 0.5rem;
+  padding: 0 0.5rem 0 0.5rem;
 }
 
 .form-btn {
@@ -311,10 +312,10 @@ footer ul {
   font-weight: 600;
   font-size: 1.2rem;
 }
-.notice{
+.notice {
   list-style: none;
   font-weight: 600;
-  color:var(--asset3)
+  color: var(--asset3);
 }
 .management {
   display: flex;
@@ -324,7 +325,11 @@ footer ul {
 .management ul {
   list-style: none;
   display: grid;
-  gap: 1rem;
+  gap: 3rem;
+  place-content: center;
+}
+.management ul li {
+  display: block;
 }
 .management ul li a {
   text-decoration: none;
@@ -333,5 +338,6 @@ footer ul {
   padding: 0.5rem;
   border-radius: 5px;
   text-align: center;
-  margin: 1rem;
+  display: block;
+  width: 200px !important;
 }
