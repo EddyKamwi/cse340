@@ -1,0 +1,45 @@
+<h1><%-"Deleting: "+ locals.inv_make+" "+ locals.inv_model %></h1>
+<h2>Confirm Deletion - The delete is permanent.</h2>
+<section class="form-section">
+  <% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+    <li><%- error.msg %></li>
+    <% }) %>
+  </ul>
+  <% } %>
+  <!-- create form input
+   readonlys for; inv_make,inv_model,inv_year,inv_description,inv_image,inv_thumbnail,inv_price,inv_miles,inv_color -->
+  <form action="/inv/delete/<%- locals.inv_id %>" method="post">
+    <section class="inventory-detail">
+      <img
+        src="<%= locals.inv_image %>"
+        alt="<%= locals.inv_make+' '+ locals.inv_model %>"
+        loading="lazy"
+        width="500"
+        height="333"
+      />
+      <div class="i-body">
+        <h2>
+          <%= locals.inv_year +' '+ locals.inv_make +' '+
+          locals.inv_model %>
+        </h2>
+        <p>
+          <span>Price:</span> $<%=
+          Number(locals.inv_price).toLocaleString('en-US') %>
+        </p>
+        <p>
+          <span>Mileage:</span> <%= Number(locals.inv_miles).toLocaleString()
+          %>
+        </p>
+        <p><span>Color:</span> <%= locals.inv_color %></p>
+        <p><%= locals.inv_description %></p>
+      </div>
+    </section>
+    <button type="submit" class="form-btn">Delete Vehicle</button>
+  </form>
+
+  <p><a href="/inv">Back to Inventory Management</a></p>
+</section>
+
+<script src="/js/inv-delete.js"></script>

@@ -1,4 +1,5 @@
-<h1>You're logged in </h1>
+<h1>Welcome <%- locals.account_firstname %></h1>
+<h2>Editing your personal information</h2>
 <p class="alert"><%- messages() %></p>
 
 <% if (errors) { %>
@@ -8,3 +9,72 @@
   <% }) %>
 </ul>
 <% } %>
+<section class="form-section">
+  <form action="/account/update" method="post" id="updateForm">
+    <input type="hidden" name="account_id" value="<%- locals.account_id %>" />
+    <div>
+      <label for="account_firstname">First name:</label>
+      <input
+        type="text"
+        name="account_firstname"
+        id="account_firstname"
+        autocomplete="given-name"
+        class="text"
+        required
+        value="<%= locals.account_firstname %>"
+      />
+    </div>
+    <div>
+      <label for="account_lastname">Last name:</label>
+      <input
+        type="text"
+        name="account_lastname"
+        id="account_lastname"
+        autocomplete="family-name"
+        class="text"
+        required
+        value="<%= locals.account_lastname %>"
+      />
+    </div>
+    <div>
+      <label for="account_email">Email address:</label>
+      <input
+        type="email"
+        name="account_email"
+        id="account_email"
+        autocomplete="email"
+        class="text"
+        required
+        value="<%= locals.account_email %>"
+      />
+    </div>
+    <div>
+      <button type="submit" class="form-btn" disabled>Update Info</button>
+    </div>
+  </form>
+</section>
+<section class="form-section">
+  <form action="/account/update-password" method="post">
+    <input type="hidden" name="account_id" value="<%- locals.account_id %>" />
+    <div>
+      <label for="account_password">Password:</label>
+      <span
+        >Passwords must be at least 12 characters and contain at least 1 number,
+        1 capital letter and 1 special character</span
+      ><br />
+      <input
+        type="password"
+        name="account_password"
+        id="account_password"
+        autocomplete="new-password"
+        class="text"
+        required
+        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+      />
+    </div>
+    <div>
+      <button class="form-btn">Update Password</button>
+    </div>
+  </form>
+</section>
+<script src="/js/inv-update.js"></script>

@@ -1,32 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%- title %> | CSE Motors</title>
-    <link rel="shortcut icon" href="images/site/favicon-32x32.png" type="image/png">
-    <meta name="author" content="Edward Kamwi">
-    <meta name="description" content="Browse, read, explore our vehicles at cse motors the cheapest and guine vehicles">
+    <link
+      rel="shortcut icon"
+      href="/images/site/favicon-32x32.png"
+      type="image/png"
+    />
+    <meta name="author" content="Edward Kamwi" />
+    <meta
+      name="description"
+      content="Browse, read, explore our vehicles at cse motors the cheapest and guine vehicles"
+    />
 
     <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Lato&family=Roboto:ital,wght@0,100..900;1,100..900&family=Special+Gothic&display=swap"
-        rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Lato&family=Roboto:ital,wght@0,100..900;1,100..900&family=Special+Gothic&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- local files -->
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/styles-large.css">
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/styles-large.css" />
     <script src="/js/script.js" defer></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <%- include('../partials/header') %>
-    <%- body %>
+    <main><%- body %></main>
     <%- include('../partials/footer') %>
-</body>
-
+  </body>
 </html>

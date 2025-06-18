@@ -10,7 +10,7 @@ require("dotenv").config();
 const app = express();
 const path = require("path");
 const static = require("./routes/static");
-const router = require("./routes/app");
+const router = require("./routes/index");
 const elayouts = require("express-ejs-layouts");
 const baseController = require("./controllers/baseController").baseController;
 const session = require("express-session");
@@ -56,7 +56,7 @@ app.set("layout", "./layouts/main");
 
 app.use(static);
 app.use("/account", require("./routes/accountRoute"));
-// Route to build login view
+app.use("/inv", require("./routes/inventoryRoute"));
 app.use("/", router);
 
 /* ***********************

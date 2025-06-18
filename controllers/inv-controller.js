@@ -205,4 +205,46 @@ invController.updateInv = async function (req, res, next) {
   }
 };
 
+invController.deleteInv = async function (req, res, next) {
+  const nav = await utilities.getNav();
+  const inventoryId = req.params.id;
+  try {
+    const result = await invModel.deleteInventory(inventoryId);
+    if (result.rowCount > 0) {
+      req.flash("notice", "Inventory item deleted successfully.");
+    } else {
+      req.flash("notice", "No inventory item found with that ID.");
+    }
+    res.redirect("/inv");
+  } catch (error) {
+    req.flash("notice", "Error deleting inventory: " + error.message);
+    res.redirect("/inv");
+  }
+};
+
+invController.confirmDeleteInv = async function (req, res, next) {
+  const nav = await utilities.getNav();
+  const inventory = await invModel.getInventoryById(req.params.id);
+
+  if (!inventory || inventory.rows.length === 0) {
+    req.flash("notice", "No inventory item found for deletion.");
+    return res.redirect("/inv");
+  }
+  const data = inventory.rows[0];
+  res.render("inventory/delete-confirm", {
+    title: "Delete Inventory Item",
+    nav,
+    errors: null,
+    inv_id: data.inv_id,
+    inv_make: data.inv_make,
+    inv_model: data.inv_model,
+    inv_year: data.inv_year,
+    inv_description: data.inv_description,
+    inv_image: data.inv_image,
+    inv_thumbnail: data.inv_thumbnail,
+    inv_price: data.inv_price,
+    inv_miles: data.inv_miles,
+    inv_color: data.inv_color,
+  });
+};
 module.exports = { invController };

@@ -6,41 +6,66 @@ const classValidation = require("../utilities/class-validation");
 const invValidation = require("../utilities/inv-validation");
 
 // Index route
-router.get("/inv", utilities.handleErrors(invController.managePage));
 router.get(
-  "/inv/getInventory/:id",
+  "/",
+  utilities.checkLogin,
+  utilities.handleErrors(invController.managePage)
+);
+router.get(
+  "/getInventory/:id",
+  utilities.checkLogin,
   utilities.handleErrors(invController.getInventoryJSON)
 );
-router.get("/inv/new-class", utilities.handleErrors(baseController.newClass));
+router.get("/new-class", utilities.handleErrors(baseController.newClass));
 router.post(
-  "/inv/new-class",
+  "/new-class",
+  utilities.checkLogin,
   classValidation.validate.classificationRules(),
   classValidation.validate.checkClassificationData,
   utilities.handleErrors(invController.createClass)
 );
-router.get("/inv/new-inv", utilities.handleErrors(baseController.newInv));
+router.get(
+  "/new-inv",
+  utilities.checkLogin,
+  utilities.handleErrors(baseController.newInv)
+);
 router.post(
-  "/inv/new-inv",
+  "/new-inv",
+  utilities.checkLogin,
   invValidation.validate.inventoryRules(),
   invValidation.validate.checkInventoryData,
   utilities.handleErrors(invController.createInv)
 );
 
-router.get("/inv/type/:id", invController.buildInventory);
+router.get("/type/:id", invController.buildInventory);
 router.get("/inventory/:id", invController.buildDetailPage);
 
 //route to build the edit page for inventory item
-router.get("/inv/edit/:id", utilities.handleErrors(invController.buildEditPage));
+router.get(
+  "/edit/:id",
+  utilities.checkLogin,
+  utilities.handleErrors(invController.buildEditPage)
+);
 
 //route to edit an inventory item
 router.post(
-  "/inv/update",
+  "/update",
+  utilities.checkLogin,
   invValidation.validate.inventoryRules(),
   invValidation.validate.checkInventoryData,
   utilities.handleErrors(invController.updateInv)
 );
 
-//500 server error
-router.get("/500", baseController.buildError500);
-router.get("/", utilities.handleErrors(baseController.buildHome));
+router.get(
+  "/delete/:id",
+  utilities.checkLogin,
+  utilities.handleErrors(invController.confirmDeleteInv)
+);
+
+router.post(
+  "/delete/:id",
+  utilities.checkLogin,
+  utilities.handleErrors(invController.deleteInv)
+);
+
 module.exports = router;

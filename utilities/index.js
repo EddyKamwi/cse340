@@ -144,6 +144,7 @@ Util.checkJWTToken = (req, res, next) => {
         res.locals.accountData = accountData;
         res.locals.loggedIn = true;
         next();
+
       }
     );
   } else {

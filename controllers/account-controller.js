@@ -3,14 +3,21 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const utilities = require("../utilities/");
 const accountModel = require("../models/account-model");
-const e = require("connect-flash");
 require("dotenv").config();
 
-accountController.dashboard = async (req, res) => {
+accountController.accountInfoPage = async (req, res) => {
   const nav = await utilities.getNav();
-  res.render("account/index", {
-    title: "Dashboard",
+  const { account_id } = res.locals.accountData;
+  const { account_firstname, account_lastname, account_email } = await accountModel.getAccountById(
+    account_id
+  );
+  return res.render("account/index", {
     nav,
+    title: "Account Info",
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
     errors: null,
   });
 };
@@ -19,11 +26,6 @@ accountController.buildLogin = async (req, res) => {
   const nav = await utilities.getNav();
   res.render("account/login", { title: "Login", nav, errors: null });
 };
-// accountController.accountLogin = async (req, res) => {
-//   const nav = await utilities.getNav();
-//   res.render("account/login", { title: "Login", nav });
-// };
-
 /* ****************************************
  *  Process login request
  * ************************************ */
@@ -61,7 +63,7 @@ accountController.accountLogin = async (req, res) => {
           maxAge: 3600 * 1000,
         });
       }
-      return res.redirect("/account");
+      return res.redirect("/inv");
     } else {
       req.flash(
         "message notice",
@@ -148,6 +150,55 @@ accountController.logoutAccount = (req, res) => {
   res.clearCookie("jwt");
   req.flash("notice", "You have been logged out.");
   res.redirect("/account/login");
-  }
+};
 
+accountController.updateAccount = async (req, res) => {
+  const { account_firstname, account_lastname, account_email, account_id } =
+    req.body;
+  try {
+    // Update the account information
+    const updateResult = await accountModel.updateAccountInfo(
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
+    );
+
+    if (updateResult) {
+      req.flash("notice", "Account information updated successfully.");
+      return res.redirect(`/account`);
+    } else {
+      req.flash("notice", "Failed to update account. Please try again.");
+      return res.status(500).redirect(`/account`);
+    }
+  } catch (error) {
+    req.flash("notice", "An error occurred while updating the account.");
+    return res.status(500).redirect(`/account`);
+  }
+};
+
+accountController.updatePassword = async (req, res) => {
+  const { account_id, account_password } = req.body;
+  try {
+    // Hash the new password
+    const hashedPassword = await bcrypt.hashSync(account_password, 10);
+
+    // Update the account password
+    const updateResult = await accountModel.updateAccountPassword(
+      account_id,
+      hashedPassword
+    );
+
+    if (updateResult) {
+      req.flash("notice", "Password updated successfully.");
+      return res.redirect(`/account`);
+    } else {
+      req.flash("notice", "Failed to update password. Please try again.");
+      return res.status(500).redirect(`/account`);
+    }
+  } catch (error) {
+    req.flash("notice", "An error occurred while updating the password.");
+    return res.status(500).redirect(`/account`);
+  }
+};
 module.exports = accountController;
