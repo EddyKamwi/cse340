@@ -375,3 +375,24 @@ main{
 .user-info a {
   margin-bottom: 1rem;
 }
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dark);
+  color: var(--light);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: larger;
+  text-decoration: none;
+}
+.google-btn:hover {
+  transform: scale(0.98);
+}
+.google-btn svg {
+  width: 30px;
+  height: 30px;
+  margin-right: 0.5rem;
+  fill: var(--light);
+}

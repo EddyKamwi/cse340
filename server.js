@@ -18,6 +18,8 @@ const pool = require("./database/");
 const utilities = require("./utilities/");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+var GitHubStrategy = require("passport-github").Strategy;
+const passport = require("passport");
 
 /* ***********************
  * Routes
@@ -38,6 +40,32 @@ app.use(
     name: "sessionId",
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: `https://cse340-motors-9pfw.onrender.com/auth/github/callback`,
+    },
+    function (accessToken, refreshToken, profile, done) {
+      // Here you would typically save the user to your database
+      // For this example, we will just return the profile
+      return done(null, profile);
+    }
+  )
+);
+
 
 // Express Messages Middleware
 app.use(require("connect-flash")());
