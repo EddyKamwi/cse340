@@ -4,6 +4,7 @@ const {
 } = require("../models/inventory-model");
 const utilities = require("../utilities/index");
 const invController = {};
+const invModel = require("../models/inventory-model");
 
 invController.buildInventory = async function (req, res, next) {
   const nav = await utilities.getNav();
@@ -89,6 +90,118 @@ invController.createInv = async function (req, res, next) {
   } catch (error) {
     req.flash("notice", "Error adding inventory: " + error.message);
     res.redirect("/inv/new-inv");
+  }
+};
+
+invController.managePage = async function (req, res) {
+  const nav = await utilities.getNav();
+  const classificationSelect = await utilities.buildClassificationList();
+  res.render("inventory/management", {
+    title: "Management Page",
+    nav,
+    errors: null,
+    classificationSelect,
+  });
+};
+
+invController.getInventoryJSON = async function (req, res, next) {
+  const classification_id = req.params.id;
+  console.log("classification_id:", classification_id);
+  try {
+    const inventories = await invModel.getInventoryByClassification(
+      classification_id
+    );
+    if (inventories) {
+      console.log(
+        "fetching inventories for classification_id:",
+        classification_id
+      );
+      return res.status(200).json(inventories.rows);
+    } else {
+      next(new Error("No data returned"));
+    }
+  } catch (err) {
+    req.flash("notice", "Error retrieving inventory: " + err.message);
+    next(new Error("Error retrieving inventory"));
+  }
+};
+
+invController.buildEditPage = async function (req, res, next) {
+  try {
+    const nav = await utilities.getNav();
+    const inventory = await invModel.getInventoryById(req.params.id);
+    const data = inventory.rows[0];
+
+    if (data) {
+      const classificationName = await utilities.getClassName(
+        data.classification_id
+      );
+      const classList = await utilities.buildClassificationList(
+        data.classification_id,
+        classificationName
+      );
+      res.render("inventory/edit", {
+        title: "Edit Inventory Item",
+        nav,
+        inv_id: data.inv_id,
+        inv_make: data.inv_make,
+        inv_model: data.inv_model,
+        inv_year: data.inv_year,
+        inv_description: data.inv_description,
+        inv_image: data.inv_image,
+        inv_thumbnail: data.inv_thumbnail,
+        inv_price: data.inv_price,
+        inv_miles: data.inv_miles,
+        inv_color: data.inv_color,
+        classification_id: data.classification_id,
+        classification_name: classificationName,
+        classList,
+        errors: null,
+      });
+    } else {
+      req.flash("notice", "No inventory item found for editing.");
+      res.redirect("/inv");
+    }
+  } catch (error) {
+    req.flash("notice", "Error retrieving inventory for editing: ");
+    next(error);
+  }
+};
+
+invController.updateInv = async function (req, res, next) {
+  const nav = await utilities.getNav();
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+  try {
+    await invModel.updateInventory(
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id
+    );
+    req.flash("notice", "Inventory item updated successfully.");
+    res.redirect("/inv");
+  } catch (error) {
+    req.flash("notice", "Error updating inventory: " + error.message);
+    res.redirect(`/inv/edit/${inv_id}`);
   }
 };
 

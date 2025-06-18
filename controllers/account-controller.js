@@ -1,16 +1,82 @@
 const accountController = {};
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const utilities = require("../utilities/");
 const accountModel = require("../models/account-model");
+const e = require("connect-flash");
+require("dotenv").config();
 
-accountController.getAccount = async (req, res) => {
+accountController.dashboard = async (req, res) => {
   const nav = await utilities.getNav();
-  res.render("account/index", { title: "Dashboard", nav });
+  res.render("account/index", {
+    title: "Dashboard",
+    nav,
+    errors: null,
+  });
 };
 
 accountController.buildLogin = async (req, res) => {
   const nav = await utilities.getNav();
-  res.render("account/login", { title: "Login", nav });
+  res.render("account/login", { title: "Login", nav, errors: null });
+};
+// accountController.accountLogin = async (req, res) => {
+//   const nav = await utilities.getNav();
+//   res.render("account/login", { title: "Login", nav });
+// };
+
+/* ****************************************
+ *  Process login request
+ * ************************************ */
+accountController.accountLogin = async (req, res) => {
+  let nav = await utilities.getNav();
+  const { account_email, account_password } = req.body;
+  const accountData = await accountModel.getAccountByEmail(account_email);
+  if (!accountData) {
+    req.flash("notice", "Please check your credentials and try again.");
+    res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    });
+    return;
+  }
+  try {
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
+      delete accountData.account_password;
+      const accessToken = jwt.sign(
+        accountData,
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: 3600 * 1000 }
+      );
+      if (process.env.NODE_ENV === "development") {
+        res.cookie("jwt", accessToken, {
+          httpOnly: true,
+          maxAge: 3600 * 1000,
+        });
+      } else {
+        res.cookie("jwt", accessToken, {
+          httpOnly: true,
+          secure: true,
+          maxAge: 3600 * 1000,
+        });
+      }
+      return res.redirect("/account");
+    } else {
+      req.flash(
+        "message notice",
+        "Please check your credentials and try again."
+      );
+      res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+      });
+    }
+  } catch (error) {
+    throw new Error("Access Forbidden");
+  }
 };
 
 accountController.buildRegister = async (req, res, next) => {
@@ -67,6 +133,7 @@ accountController.registerAccount = async (req, res) => {
     res.status(201).render("account/login", {
       title: "Login",
       nav,
+      errors: null,
     });
   } else {
     req.flash("notice", "Sorry, the registration failed.");
@@ -76,5 +143,11 @@ accountController.registerAccount = async (req, res) => {
     });
   }
 };
+
+accountController.logoutAccount = (req, res) => {
+  res.clearCookie("jwt");
+  req.flash("notice", "You have been logged out.");
+  res.redirect("/account/login");
+  }
 
 module.exports = accountController;

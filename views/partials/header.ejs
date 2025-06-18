@@ -1,7 +1,11 @@
 <header>
-    <div class="brand">
-        <span class="b-name">CSE Motors</span>
-        <a class="user" href="/login">My Account</a>
-    </div>
-    <%- include('./navigation') %>
+  <div class="brand">
+    <span class="b-name">CSE Motors</span>
+    <% if(locals.loggedIn){ %>
+    <a class="user" href="/account/logout">Logout</a>
+    <% } else { %>
+    <a class="user" href="/account/login">My Account</a>
+    <% } %>
+  </div>
+  <%- include('./navigation') %>
 </header>

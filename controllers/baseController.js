@@ -2,25 +2,30 @@ const utilities = require("../utilities/");
 const baseController = {};
 
 baseController.buildHome = async function (req, res) {
- const upgrades = utilities.getUpgrades;
+  const upgrades = utilities.getUpgrades;
   const nav = await utilities.getNav();
   res.render("index", { title: "Home", nav, upgrades });
 };
-baseController.managePage = async function (req, res) {
-  const nav = await utilities.getNav();
-  res.render("inventory/management", { title: "Management Page", nav });
-}
 
 baseController.newClass = async function (req, res) {
   const nav = await utilities.getNav();
-  res.render("inventory/add-classification", { title: "Create a Classification", nav,errors: null });
-}
+  res.render("inventory/add-classification", {
+    title: "Create a Classification",
+    nav,
+    errors: null,
+  });
+};
 
 baseController.newInv = async function (req, res) {
   const nav = await utilities.getNav();
   const classList = await utilities.buildClassificationList();
-  res.render("inventory/add-inventory", { title: "Add an Inventory", nav ,errors: null ,classList});
-}
+  res.render("inventory/add-inventory", {
+    title: "Add an Inventory",
+    nav,
+    errors: null,
+    classList,
+  });
+};
 
 /* *******************************************
  * buildError pages

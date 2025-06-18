@@ -10,13 +10,28 @@ router.get(
 );
 router.get(
   "/",
-  utilities.handleErrors(accountController.getAccount)
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.dashboard)
 );
 router.post(
   "/register",
   regValidation.registrationRules(),
   regValidation.checkRegistrationData,
   utilities.handleErrors(accountController.registerAccount)
+);
+
+router.get("/login", utilities.handleErrors(accountController.buildLogin));
+
+router.post(
+  "/login",
+  regValidation.loginRules(),
+  regValidation.checkLoginData,
+  utilities.handleErrors(accountController.accountLogin)
+);
+router.get(
+  "/logout",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.logoutAccount)
 );
 
 module.exports = router;

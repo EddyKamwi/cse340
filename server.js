@@ -6,23 +6,24 @@
  * Require Statements
  *************************/
 const express = require("express");
-const env = require("dotenv").config();
+require("dotenv").config();
 const app = express();
 const path = require("path");
 const static = require("./routes/static");
 const router = require("./routes/app");
 const elayouts = require("express-ejs-layouts");
 const baseController = require("./controllers/baseController").baseController;
-const accountController = require("./controllers/account-controller")
 const session = require("express-session");
 const pool = require("./database/");
-const utilities = require("./utilities/")
+const utilities = require("./utilities/");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 /* ***********************
  * Routes
  *************************/
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
@@ -40,6 +41,8 @@ app.use(
 
 // Express Messages Middleware
 app.use(require("connect-flash")());
+app.use(utilities.checkJWTToken);
+
 app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res);
   next();
@@ -54,7 +57,6 @@ app.set("layout", "./layouts/main");
 app.use(static);
 app.use("/account", require("./routes/accountRoute"));
 // Route to build login view
-router.get("/login", utilities.handleErrors(accountController.buildLogin))
 app.use("/", router);
 
 /* ***********************

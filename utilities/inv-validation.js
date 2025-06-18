@@ -32,18 +32,12 @@ validate.inventoryRules = () => {
       .withMessage("Description must be at least 10 characters long"),
     body("inv_image")
       .trim()
-      .escape()
       .notEmpty()
-      .withMessage("Image is required")
-      .isURL()
-      .withMessage("Image must be a valid URL"),
+      .withMessage("Image is required"),
     body("inv_thumbnail")
       .trim()
-      .escape()
       .notEmpty()
-      .withMessage("Thumbnail is required")
-      .isURL()
-      .withMessage("Thumbnail must be a valid URL"),
+      .withMessage("Thumbnail is required"),
     body("inv_price")
       .trim()
       .escape()
@@ -71,7 +65,7 @@ validate.inventoryRules = () => {
       .notEmpty()
       .withMessage("Classification is required")
       .isNumeric()
-      .withMessage("Classification must be a numeric value"),
+      .withMessage("Classification must be selected from the list provided"),
   ];
 };
 

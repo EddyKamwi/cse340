@@ -1,5 +1,7 @@
 const invModel = require("../models/inventory-model");
 const Util = {};
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -94,26 +96,31 @@ Util.getClassName = async function (classification_id) {
     error.status = 500;
     throw error; // Propagate the error to be handled by the middleware
   }
-}
+};
 
-Util.buildClassificationList = async function (classification_id = null) {
-    let data = await invModel.getClassifications()
-    let classificationList =
-      '<select name="classification_id" id="classificationList" required class="select"> '
-    classificationList += "<option selected disabled>Choose a Classification</option>"
-    data.rows.forEach((row) => {
-      classificationList += '<option value="' + row.classification_id + '"'
-      if (
-        classification_id != null &&
-        row.classification_id == classification_id
-      ) {
-        classificationList += " selected "
-      }
-      classificationList += ">" + row.classification_name + "</option>"
-    })
-    classificationList += "</select>"
-    return classificationList
+Util.buildClassificationList = async function (classification_id = null,classification_name = null) {
+  let data = await invModel.getClassifications();
+  let classificationList =
+    '<select name="classification_id" id="classificationList" required class="select"> ';
+  if (classification_name != null) {
+    classificationList += `<option selected disabled value='${classification_id}'>${classification_name}</option>"`;
+  } else {
+    classificationList +=
+      "<option selected disabled>Choose a Classification</option>";
   }
+  data.rows.forEach((row) => {
+    classificationList += '<option value="' + row.classification_id + '"';
+    if (
+      classification_id != null &&
+      row.classification_id == classification_id
+    ) {
+      classificationList += " selected ";
+    }
+    classificationList += ">" + row.classification_name + "</option>";
+  });
+  classificationList += "</select>";
+  return classificationList;
+};
 
 /* ****************************************
  * Middleware For Handling Errors
@@ -122,5 +129,35 @@ Util.buildClassificationList = async function (classification_id = null) {
  **************************************** */
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
+
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("Please Log in");
+          res.clearCookie("jwt");
+          return res.redirect("/account/login");
+        }
+        res.locals.accountData = accountData;
+        res.locals.loggedIn = true;
+        next();
+      }
+    );
+  } else {
+    next();
+  }
+};
+
+Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedIn) {
+    next();
+  } else {
+    req.flash("notice", "Please Log in");
+    return res.redirect("/account/login");
+  }
+};
 
 module.exports = Util;

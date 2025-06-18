@@ -1,8 +1,19 @@
-<h1><%= title  %></h1>
+<h1><%= title %></h1>
 <p class="alert"><%- messages() %></p>
 <section class="management">
-    <ul>
-        <li><a href="/inv/new-class" class="form-btn">Add Classification</a></li>
-        <li><a href="/inv/new-inv" class="form-btn">Add inventory</a></li>
-    </ul>
+  <ul>
+    <li><a href="/inv/new-class" class="form-btn">Add Classification</a></li>
+    <li><a href="/inv/new-inv" class="form-btn">Add inventory</a></li>
+  </ul>
+  <h2>Manage Inventories</h2>
+  <p class="class-msg">
+    Select a classification from the list below to see the items belonging to
+    the classification
+  </p>
+  <div class="class"><%- classificationSelect %></div>
+  <table id="inventoryDisplay"></table>
+  <noscript>JavaScript must be enabled to use this page.</noscript>
 </section>
+
+
+<script src="/js/inventory.js"></script>
