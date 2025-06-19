@@ -1,7 +1,9 @@
 const invModel = require("../models/inventory-model");
+const avatarModel = require("../models/avatar-model");
 const Util = {};
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const multer = require("multer");
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -25,6 +27,7 @@ Util.getNav = async function (req, res, next) {
   list += "</ul>";
   return list;
 };
+
 Util.getUpgrades = [
   {
     name: "fluxcapacitor",
@@ -98,7 +101,10 @@ Util.getClassName = async function (classification_id) {
   }
 };
 
-Util.buildClassificationList = async function (classification_id = null,classification_name = null) {
+Util.buildClassificationList = async function (
+  classification_id = null,
+  classification_name = null
+) {
   let data = await invModel.getClassifications();
   let classificationList =
     '<select name="classification_id" id="classificationList" required class="select"> ';
@@ -135,16 +141,20 @@ Util.checkJWTToken = (req, res, next) => {
     jwt.verify(
       req.cookies.jwt,
       process.env.ACCESS_TOKEN_SECRET,
-      function (err, accountData) {
+      async function (err, accountData) {
         if (err) {
           req.flash("Please Log in");
           res.clearCookie("jwt");
           return res.redirect("/account/login");
         }
+        //collecting a row from the avatar table using a user id
+        const image = await avatarModel.getAvatarByAccountId(accountData.account_id)
         res.locals.accountData = accountData;
         res.locals.loggedIn = true;
-        next();
 
+        //collecting the value from the column avatar_path
+        res.locals.avatar = image.rows[0].avatar_path;
+        next();
       }
     );
   } else {
@@ -160,5 +170,22 @@ Util.checkLogin = (req, res, next) => {
     return res.redirect("/account/login");
   }
 };
+
+const options = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/images/avatars");
+  },
+  filename: async function (req, file, cb) {
+    const fileExtension = file.originalname.split(".").pop();
+    const image_name = Date.now() + "." + fileExtension;
+    const image_path = "/images/avatars/" + image_name;
+
+    req.body.avatar = image_path;
+
+    cb(null, image_name); // Use current timestamp as filename
+  },
+});
+
+Util.uploadProfileImage = multer({ storage: options }).single("avatar");
 
 module.exports = Util;

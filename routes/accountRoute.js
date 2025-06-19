@@ -17,6 +17,7 @@ router.post(
   "/register",
   regValidation.registrationRules(),
   regValidation.checkRegistrationData,
+  utilities.uploadProfileImage,
   utilities.handleErrors(accountController.registerAccount)
 );
 

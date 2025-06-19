@@ -9,7 +9,7 @@
   </ul>
   <% } %>
   
-  <form action="/account/register" method="post">
+  <form action="/account/register" method="post" enctype="multipart/form-data">
     <div>
       <label for="account_firstname">First name:</label>
       <input
@@ -46,6 +46,21 @@
         value="<%= locals.account_email %>"
       />
     </div>
+        <div>
+      <label for="avatar">Profile Photo</label>
+      <input
+      type="file"
+      name="avatar"
+      id="avatar"
+      accept="image/*"
+      class="text"
+      required
+      pattern="^(https?:\/\/.*\.(?:png|jpg|jpeg|gif))$"
+      value="<%= locals.avatar %>"
+      autocomplete="photo"
+      >
+    </div>
+
     <div>
       <label for="account_password">Password:</label>
       <span
@@ -62,10 +77,11 @@
         pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
       />
     </div>
+
     <div>
       <input type="submit" value="Register" class="form-btn" />
     </div>
 
   </form>
-  <p>Already have an Account? <a href="/login">Login</a></p>
+  <p>Already have an Account? <a href="/account/login">Login</a></p>
 </section>

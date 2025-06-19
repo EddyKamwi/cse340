@@ -3,14 +3,14 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const utilities = require("../utilities/");
 const accountModel = require("../models/account-model");
+const avatarModel = require("../models/avatar-model");
 require("dotenv").config();
 
 accountController.accountInfoPage = async (req, res) => {
   const nav = await utilities.getNav();
   const { account_id } = res.locals.accountData;
-  const { account_firstname, account_lastname, account_email } = await accountModel.getAccountById(
-    account_id
-  );
+  const { account_firstname, account_lastname, account_email } =
+    await accountModel.getAccountById(account_id);
   return res.render("account/index", {
     nav,
     title: "Account Info",
@@ -96,6 +96,7 @@ accountController.buildRegister = async (req, res, next) => {
  * *************************************** */
 accountController.registerAccount = async (req, res) => {
   let nav = await utilities.getNav();
+
   const {
     account_firstname,
     account_lastname,
@@ -132,6 +133,18 @@ accountController.registerAccount = async (req, res) => {
       "notice",
       `Congratulations, you\'re registered ${account_firstname}. Please log in.`
     );
+
+    //insert avatar
+
+    try {
+      const account_id = regResult.rows[0].account_id;
+      const avatar_path = req.body.avatar;
+      await avatarModel.insertProfileImage(account_id, avatar_path);
+      console.log("file inserted!");
+    } catch (error) {
+      console.log("failed to insert avatar");
+    }
+
     res.status(201).render("account/login", {
       title: "Login",
       nav,

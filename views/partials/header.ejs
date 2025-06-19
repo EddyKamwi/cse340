@@ -3,7 +3,14 @@
     <span class="b-name">CSE Motors</span>
     <% if(locals.loggedIn){ %>
     <span class="user">
-      Welcome <%- locals.account_firstname%>: 
+      <img
+        src="<%- locals.avatar %>"
+        alt="<%- locals.accountData.account_firstname%> profile picture"
+        loading="lazy"
+        width="60"
+        height="60"
+      />
+      Welcome <%- locals.accountData.account_firstname%>:
       <a href="/account/logout"> Logout</a>
     </span>
     <% } else { %>
