@@ -46,6 +46,9 @@ validate.registrationRules = () => {
   ];
 };
 
+validate.avatarRules = () => {
+  return body("account_avatar")
+};
 validate.loginRules = () => {
   return [
     body("account_email")

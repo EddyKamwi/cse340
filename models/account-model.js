@@ -40,7 +40,7 @@ async function checkExistingEmail(account_email) {
 async function getAccountByEmail(account_email) {
   try {
     const result = await pool.query(
-      "SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1",
+      "SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password, account_avatar FROM account WHERE account_email = $1",
       [account_email]
     );
     return result.rows[0];
@@ -69,6 +69,15 @@ async function updateAccountInfo(
   }
 }
 
+async function updateAccountAvatar(account_id, account_newAvatarPath) {
+  try {
+    const sql = "UPDATE account SET account_avatar = $1 WHERE account_id = $2 RETURNING *";
+    return await pool.query(sql, [account_newAvatarPath, account_id]);
+  } catch (err) {
+    return new Error("failed to update account avatar")
+  }
+}
+
 async function updateAccountPassword(account_id, account_password) {
   try {
     const sql =
@@ -89,4 +98,23 @@ async function getAccountById(account_id) {
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccountInfo, updateAccountPassword , getAccountById };
+async function getAvatarByAccountId(account_id) {
+  try {
+    const sql = "SELECT account_avatar FROM account WHERE account_id = $1";
+    const result = await pool.query(sql, [account_id]);
+    return result.rows[0];
+  } catch (error) {
+    return new Error("No matching account found");
+  }
+}
+
+module.exports = {
+  registerAccount,
+  checkExistingEmail,
+  getAccountByEmail,
+  updateAccountInfo,
+  updateAccountPassword,
+  getAccountById,
+  updateAccountAvatar,
+  getAvatarByAccountId
+};

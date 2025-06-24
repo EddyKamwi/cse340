@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const utilities = require("../utilities/");
 const accountModel = require("../models/account-model");
-const avatarModel = require("../models/avatar-model");
 require("dotenv").config();
 
 accountController.accountInfoPage = async (req, res) => {
@@ -134,17 +133,6 @@ accountController.registerAccount = async (req, res) => {
       `Congratulations, you\'re registered ${account_firstname}. Please log in.`
     );
 
-    //insert avatar
-
-    try {
-      const account_id = regResult.rows[0].account_id;
-      const avatar_path = req.body.avatar;
-      await avatarModel.insertProfileImage(account_id, avatar_path);
-      console.log("file inserted!");
-    } catch (error) {
-      console.log("failed to insert avatar");
-    }
-
     res.status(201).render("account/login", {
       title: "Login",
       nav,
@@ -212,6 +200,30 @@ accountController.updatePassword = async (req, res) => {
   } catch (error) {
     req.flash("notice", "An error occurred while updating the password.");
     return res.status(500).redirect(`/account`);
+  }
+};
+
+accountController.updateAvatar = async (req, res) => {
+  const { account_avatar, account_id } = req.body;
+  if (!req.file) {
+    return res.redirect("/account");
+  } else {
+    try {
+      const result = await accountModel.updateAccountAvatar(
+        account_id,
+        account_avatar
+      );
+      if (result) {
+        req.flash(
+          "notice",
+          "You have successfully updated your profile picture."
+        );
+        return res.redirect("/account");
+      }
+    } catch (err) {
+      req.flash("failed to update your profile, please try again later. 😊");
+      return res.redirect("/account");
+    }
   }
 };
 module.exports = accountController;

@@ -258,8 +258,7 @@ footer ul {
 .form-section {
   max-width: 480px;
   box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.75);
-  margin:.5rem auto;
-  
+  margin: 0.5rem auto;
 }
 .form-section form {
   padding: 1rem;
@@ -267,14 +266,14 @@ footer ul {
   flex-direction: column;
   /* max-width: 480px; */
 }
-h1{
+h1 {
   text-align: center;
 }
-.form-section form div textarea{
+.form-section form div textarea {
   height: 8rem;
   display: block;
 }
-.form-section form div{
+.form-section form div {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -310,6 +309,7 @@ h1{
   font-weight: 600;
   font-size: larger;
   border: rgb(128, 128, 128, 0.5) solid 2px;
+  margin: 0.5rem auto;
 }
 .form-btn:hover {
   transform: scale(0.99);

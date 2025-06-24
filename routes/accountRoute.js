@@ -17,7 +17,6 @@ router.post(
   "/register",
   regValidation.registrationRules(),
   regValidation.checkRegistrationData,
-  utilities.uploadProfileImage,
   utilities.handleErrors(accountController.registerAccount)
 );
 
@@ -48,6 +47,13 @@ router.post(
   regValidation.updatePasswordRules(),
   regValidation.checkUpdatePasswordData,
   utilities.handleErrors(accountController.updatePassword)
+);
+
+router.post(
+  "/update-avatar",
+  utilities.checkLogin,
+  utilities.uploadProfileImage,
+  utilities.handleErrors(accountController.updateAvatar)
 );
 
 module.exports = router;

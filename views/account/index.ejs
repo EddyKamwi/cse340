@@ -10,6 +10,27 @@
 </ul>
 <% } %>
 <section class="form-section">
+  <form action="/account/update-avatar" method="post" enctype="multipart/form-data">
+    <div>
+      <input type="hidden" name="account_id" value="<%- locals.accountData.account_id %>">
+      <label for="account_avatar">Profile Photo</label>
+      <input
+        type="file"
+        name="account_avatar"
+        id="account_avatar"
+        accept="image/*"
+        required
+        pattern="^(https?:\/\/.*\.(?:png|jpg|jpeg|gif))$"
+        value="<%= locals.avatar %>"
+        autocomplete="photo"
+      />
+    </div>
+    <div>
+      <button class="form-btn">Update Image</button>
+    </div>
+  </form>
+</section>
+<section class="form-section">
   <form action="/account/update" method="post" id="updateForm">
     <input type="hidden" name="account_id" value="<%- locals.account_id %>" />
     <div>
